@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNCC Traffic & Parking Accessibility Audit</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --pos-color: #2e7d32;
+            --neu-color: #f57c00;
+            --neg-color: #c62828;
+            --primary: #00703c; /* UNCC Green tone */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            max-width: 1000px;
+            margin: 20px auto 40px auto;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .notice-banner {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            background-color: #e8f5e9;
+            border-left: 5px solid var(--primary);
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* Data Cards & Charts */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .data-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .tag {
+            background-color: #eef2f6;
+            color: #334155;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .focus-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        /* Pure CSS Bar Visualizations */
+        .stacked-bar-container {
+            height: 24px;
+            background-color: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .bar-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: bold;
+            transition: width 0.3s ease;
+        }
+
+        .bg-positive { background-color: var(--pos-color); }
+        .bg-neutral { background-color: var(--neu-color); }
+        .bg-negative { background-color: var(--neg-color); }
+
+        .legend {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* Quotes Section */
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        blockquote {
+            background: var(--card-bg);
+            border-left: 4px solid var(--primary);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        footer {
+            max-width: 1000px;
+            margin: 40px auto 20px auto;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>UNCC Traffic & Parking Dignity Audit</h1>
+        <p>Applied AI Learning Lab &mdash; Mobility & Campus Access Dashboard</p>
+    </header>
+
+    <div class="notice-banner">
+        <strong>Data Sovereignty & Privacy Guarantee:</strong> This dashboard contains anonymized, aggregate metrics compiled from 380 UNCC student and staff survey responses regarding campus transit, parking decks, and physical access. No tracking scripts or personal identifiers are stored or executed.
+    </div>
+
+    <main>
+        <section>
+            <h2>Aggregate Transit & Parking Sentiment Data</h2>
+            <div class="dashboard-grid">
+
+                <!-- East Deck & CRI Decks -->
+                <article class="data-card">
+                    <div class="card-header">
+                        <span class="card-title">East Deck & CRI Parking Decks</span>
+                        <span class="tag">Elevator Outages, Accessible Bays</span>
+                    </div>
+                    <p class="focus-desc"><strong>Focus:</strong> ADA van-accessible space availability, deck elevator maintenance, ramp incline compliance</p>
+                    <div class="stacked-bar-container">
+                        <div class="bar-segment bg-positive" style="width: 28%;">28%</div>
+                        <div class="bar-segment bg-neutral" style="width: 22%;">22%</div>
+                        <div class="bar-segment bg-negative" style="width: 50%;">50%</div>
+                    </div>
+                    <div class="legend">
+                        <span class="legend-item"><span class="legend-dot bg-positive"></span> Positive (28%)</span>
+                        <span class="legend-item"><span class="legend-dot bg-neutral"></span> Neutral (22%)</span>
+                        <span class="legend-item"><span class="legend-dot bg-negative"></span> Negative (50%)</span>
+                    </div>
+                </article>
+
+                <!-- Niner Transit Bus System -->
+                <article class="data-card">
+                    <div class="card-header">
+                        <span class="card-title">Niner Transit (Bus & Paratransit)</span>
+                        <span class="tag">Wheelchair Lift Reliability, Peak Frequency</span>
+                    </div>
+                    <p class="focus-desc"><strong>Focus:</strong> Shuttle ramp deployment speed, Passio GO tracking accuracy, paratransit scheduling</p>
+                    <div class="stacked-bar-container">
+                        <div class="bar-segment bg-positive" style="width: 64%;">64%</div>
+                        <div class="bar-segment bg-neutral" style="width: 21%;">21%</div>
+                        <div class="bar-segment bg-negative" style="width: 15%;">15%</div>
+                    </div>
+                    <div class="legend">
+                        <span class="legend-item"><span class="legend-dot bg-positive"></span> Positive (64%)</span>
+                        <span class="legend-item"><span class="legend-dot bg-neutral"></span> Neutral (21%)</span>
+                        <span class="legend-item"><span class="legend-dot bg-negative"></span> Negative (15%)</span>
+                    </div>
+                </article>
+
+                <!-- Student Commuter Surface Lots -->
+                <article class="data-card">
+                    <div class="card-header">
+                        <span class="card-title">Commuter Surface Lots (Lots 5, 6 & North Deck Perimeter)</span>
+                        <span class="tag">Night Lighting, Curb Cuts</span>
+                    </div>
+                    <p class="focus-desc"><strong>Focus:</strong> Nighttime lighting levels, pavement repairs, distance to core academic buildings</p>
+                    <div class="stacked-bar-container">
+                        <div class="bar-segment bg-positive" style="width: 35%;">35%</div>
+                        <div class="bar-segment bg-neutral" style="width: 25%;">25%</div>
+                        <div class="bar-segment bg-negative" style="width: 40%;">40%</div>
+                    </div>
+                    <div class="legend">
+                        <span class="legend-item"><span class="legend-dot bg-positive"></span> Positive (35%)</span>
+                        <span class="legend-item"><span class="legend-dot bg-neutral"></span> Neutral (25%)</span>
+                        <span class="legend-item"><span class="legend-dot bg-negative"></span> Negative (40%)</span>
+                    </div>
+                </article>
+
+                <!-- PATS License Plate Recognition & Digital Permits -->
+                <article class="data-card">
+                    <div class="card-header">
+                        <span class="card-title">PATS Digital Permits & Portal Access</span>
+                        <span class="tag">User Experience, System Transparency</span>
+                    </div>
+                    <p class="focus-desc"><strong>Focus:</strong> LPR registration portal usability, temporary disability permit processing time</p>
+                    <div class="stacked-bar-container">
+                        <div class="bar-segment bg-positive" style="width: 72%;">72%</div>
+                        <div class="bar-segment bg-neutral" style="width: 18%;">18%</div>
+                        <div class="bar-segment bg-negative" style="width: 10%;">10%</div>
+                    </div>
+                    <div class="legend">
+                        <span class="legend-item"><span class="legend-dot bg-positive"></span> Positive (72%)</span>
+                        <span class="legend-item"><span class="legend-dot bg-neutral"></span> Neutral (18%)</span>
+                        <span class="legend-item"><span class="legend-dot bg-negative"></span> Negative (10%)</span>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <section>
+            <h2>Human-Centered Commuter Experiences</h2>
+            <div class="quotes-grid">
+                <blockquote>
+                    "When the elevator in East Deck 3 goes out without advance notification on the PATS portal, I end up stranded on the 4th floor or forced to roll down steep traffic ramps."
+                    <cite>&mdash; Voice on Parking Deck Elevators</cite>
+                </blockquote>
+                <blockquote>
+                    "The Niner Transit drivers are fantastic at securing wheelchairs quickly, but during 8:00 AM rush hour, buses are so packed that ramps can't deploy easily."
+                    <cite>&mdash; Voice on Campus Transit</cite>
+                </blockquote>
+                <blockquote>
+                    "Navigating from outer commuter lots back to Krauss Hall late at night feels unsafe due to dark stretches near shifting brick pathways."
+                    <cite>&mdash; Voice on Pedestrian Safety</cite>
+                </blockquote>
+                <blockquote>
+                    "The license plate recognition system simplified buying permits online, but getting temporary accessible parking passes approved needs a faster turn-around."
+                    <cite>&mdash; Voice on PATS Administration</cite>
+                </blockquote>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>UNCC Ethical AI Audit Project &bull; Built with Privacy-First Principles &bull; No Cookies or Trackers</p>
+    </footer>
+
+</body>
+</html>
